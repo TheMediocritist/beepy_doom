@@ -63,6 +63,11 @@ struct color {
 
 static struct color colors[256];
 
+static int bayer2x2[2][2] = {
+    { 0, 2 },
+    { 3, 1 }
+};
+
 // The screen buffer; this is modified to draw things to the screen
 
 byte *I_VideoBuffer = NULL;
@@ -440,9 +445,46 @@ void I_FinishUpdate (void)
         }
         line_in += SCREENWIDTH;
     }
-
+	
     /* Start drawing from y-offset */
     lseek(fd_fb, y_offset * fb.xres, SEEK_SET);
+
+    // New dithering code
+    for (int y = 0; y < SCREENHEIGHT; y++)
+    {
+        int i;
+        for (i = 0; i < fb_scaling; i++)
+        {
+            line_out += x_offset;
+
+            // Process each pixel in the current row
+            for (int x = 0; x < SCREENWIDTH; x++)
+            {
+                struct color c = colors[line_in[x]];
+
+                // Convert RGB to grayscale (average of R, G, and B)
+                int gray = (c.r + c.g + c.b) / 3;
+
+                // Use Bayer 2x2 dithering to decide if pixel should be black or white
+                int dithered = gray > bayer2x2[x % 2][y % 2] * 64 ? 255 : 0;
+
+                // Set the pixel in the output buffer
+                for (int j = 0; j < fb_scaling; j++)
+                {
+                    for (int k = 0; k < fb.bits_per_pixel / 8; k++)
+                    {
+                        *line_out = dithered;
+                        line_out++;
+                    }
+                }
+            }
+
+            line_out += (SCREENWIDTH * fb_scaling * (fb.bits_per_pixel / 8)) + x_offset_end;
+        }
+        line_in += SCREENWIDTH;
+    }
+    // /* Start drawing from y-offset */
+    // lseek(fd_fb, y_offset * fb.xres, SEEK_SET);
     write(fd_fb, I_VideoBuffer_FB, (SCREENHEIGHT * fb_scaling * (fb.bits_per_pixel/8)) * fb.xres); /* draw only portion used by doom + x-offsets */
 }
 
