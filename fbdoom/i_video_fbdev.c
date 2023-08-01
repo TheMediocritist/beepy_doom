@@ -219,7 +219,7 @@ void I_StartFrame (void) {}
 
 __attribute__ ((weak)) void I_GetEvent (void) {}
 
-_attribute__ ((weak)) void I_StartTic (void)
+__attribute__ ((weak)) void I_StartTic (void)
 {
 	I_GetEvent();
 }
