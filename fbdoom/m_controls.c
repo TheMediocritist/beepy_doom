@@ -26,16 +26,16 @@
 // Keyboard controls
 //
 
-int key_right = KEY_RIGHTARROW;
-int key_left = KEY_LEFTARROW;
-int key_up = KEY_UPARROW;
-int key_down = KEY_DOWNARROW; 
-int key_strafeleft = KEY_STRAFE_L;
-int key_straferight = KEY_STRAFE_R;
-int key_fire = KEY_FIRE;
-int key_use = KEY_USE;
+int key_right = 'd';
+int key_left = 'a';
+int key_up = 'w';
+int key_down = 'd'; 
+int key_strafeleft = 'q';
+int key_straferight = 'e';
+int key_fire = 'j';
+int key_use = 'k';
 int key_strafe = KEY_RALT;
-int key_speed = KEY_RSHIFT; 
+int key_speed = 'l'; 
 
 // 
 // Heretic keyboard controls
@@ -109,7 +109,7 @@ int mousebnextweapon = -1;
 
 int key_message_refresh = KEY_ENTER;
 int key_pause = KEY_PAUSE;
-int key_demo_quit = 'q';
+int key_demo_quit = KEY_ESCAPE;
 int key_spy = KEY_F12;
 
 // Multiplayer chat keys:
@@ -127,15 +127,15 @@ int key_weapon5 = '5';
 int key_weapon6 = '6';
 int key_weapon7 = '7';
 int key_weapon8 = '8';
-int key_prevweapon = 0;
-int key_nextweapon = 0;
+int key_prevweapon = 'h';
+int key_nextweapon = 'g';
 
 // Map control keys:
 
-int key_map_north     = KEY_UPARROW;
-int key_map_south     = KEY_DOWNARROW;
-int key_map_east      = KEY_RIGHTARROW;
-int key_map_west      = KEY_LEFTARROW;
+int key_map_north     = 'w';
+int key_map_south     = 's';
+int key_map_east      = 'd';
+int key_map_west      = 'a';
 int key_map_zoomin    = '=';
 int key_map_zoomout   = '-';
 int key_map_toggle    = KEY_TAB;
