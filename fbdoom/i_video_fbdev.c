@@ -249,14 +249,16 @@ void I_FinishUpdate (void)
 	line_in  = (unsigned char *) I_VideoBuffer;
 	line_out = (unsigned char *) I_VideoBuffer_FB;
 
-	y = SCREENHEIGHT;
+	// Start drawing from y-offset
+	lseek(fd_fb, y_offset * fb.xres, SEEK_SET);
 
-	while (y--)
+	for (y = 0; y < SCREENHEIGHT; y++)
 	{
 		int i;
-		for (i = 0; i < fb_scaling; i++) {
+		for (i = 0; i < fb_scaling; i++)
+		{
 			line_out += x_offset;
-			
+
 			#ifdef CMAP256
 				for (fb_scaling == 1) {
 					memcpy(line_out, line_in, SCREENWIDTH); /* fb_width is bigger than Doom SCREENWIDTH... */
@@ -267,22 +269,6 @@ void I_FinishUpdate (void)
 				cmap_to_fb((void*)line_out, (void*)line_in, SCREENWIDTH);
 			#endif
 			
-			line_out += (SCREENWIDTH * fb_scaling * (fb.bits_per_pixel/8)) + x_offset_end;
-		}
-		line_in += SCREENWIDTH;
-	}
-	
-	/* Start drawing from y-offset */
-	lseek(fd_fb, y_offset * fb.xres, SEEK_SET);
-
-	// Apply dithering
-	for (int y = 0; y < SCREENHEIGHT; y++)
-	{
-		int i;
-		for (i = 0; i < fb_scaling; i++)
-		{
-			line_out += x_offset;
-
 			// Process each pixel in the current row
 			for (int x = 0; x < SCREENWIDTH; x++)
 			{
@@ -309,16 +295,12 @@ void I_FinishUpdate (void)
 		}
 		line_in += SCREENWIDTH;
 	}
-	
-	// Calculate the offset in I_VideoBuffer_FB for the current row (y)
-	int offset = y * SCREENWIDTH * fb_scaling * (fb.bits_per_pixel / 8);
-	
-	// Copy the dithered line_out data for the current row to I_VideoBuffer_FB
-	memcpy(I_VideoBuffer_FB + offset, line_out - SCREENWIDTH * fb_scaling * (fb.bits_per_pixel / 8), SCREENWIDTH * fb_scaling * (fb.bits_per_pixel / 8));
 
 	// Draw portion used by doom + x-offsets 
-	write(fd_fb, I_VideoBuffer_FB, (SCREENHEIGHT * fb_scaling * (fb.bits_per_pixel/8)) * fb.xres); 
+	write(fd_fb, I_VideoBuffer_FB, fb.xres * fb.yres * (fb.bits_per_pixel/8));
+
 }
+
 
 //
 // I_ReadScreen
