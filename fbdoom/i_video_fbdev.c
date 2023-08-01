@@ -241,9 +241,8 @@ void I_FinishUpdate (void)
 	/* 600 = fb heigt, 200 screenheight */
 	/* 2048 =fb width, 320 screenwidth */
 	y_offset     = (((fb.yres - (SCREENHEIGHT * fb_scaling)) * fb.bits_per_pixel/8)) / 2;
-	x_offset     = (((fb.xres - (SCREENWIDTH  * fb_scaling)) * fb.bits_per_pixel/8)) / 2; // XXX: siglent FB hack: /4 instead of /2, since it seems to handle the resolution in a funny way
-	//x_offset     = 0;
-	x_offset_end = ((fb.xres - (SCREENWIDTH  * fb_scaling)) * fb.bits_per_pixel/8) - x_offset;
+	x_offset     = (((fb.xres - (SCREENWIDTH  * fb_scaling)) * fb.bits_per_pixel/8) / 2) / fb_scaling; // Corrected x_offset calculation
+	x_offset_end = ((fb.xres - (SCREENWIDTH  * fb_scaling)) * fb.bits_per_pixel/8) - (x_offset * fb_scaling);
 
 	/* DRAW SCREEN */
 	line_in  = (unsigned char *) I_VideoBuffer;
@@ -300,7 +299,6 @@ void I_FinishUpdate (void)
 	write(fd_fb, I_VideoBuffer_FB, fb.xres * fb.yres * (fb.bits_per_pixel/8));
 
 }
-
 
 //
 // I_ReadScreen
