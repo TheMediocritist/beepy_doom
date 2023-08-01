@@ -309,6 +309,12 @@ void I_FinishUpdate (void)
 		}
 		line_in += SCREENWIDTH;
 	}
+	
+	// Calculate the offset in I_VideoBuffer_FB for the current row (y)
+	int offset = y * SCREENWIDTH * fb_scaling * (fb.bits_per_pixel / 8);
+	
+	// Copy the dithered line_out data for the current row to I_VideoBuffer_FB
+	memcpy(I_VideoBuffer_FB + offset, line_out - SCREENWIDTH * fb_scaling * (fb.bits_per_pixel / 8), SCREENWIDTH * fb_scaling * (fb.bits_per_pixel / 8));
 
 	// Draw portion used by doom + x-offsets 
 	write(fd_fb, I_VideoBuffer_FB, (SCREENHEIGHT * fb_scaling * (fb.bits_per_pixel/8)) * fb.xres); 
