@@ -163,7 +163,7 @@ void I_InitGraphics (void)
     int i;
 
     /* Open fbdev file descriptor */
-    fd_fb = open("/dev/fb0", O_RDWR);
+    fd_fb = open("/dev/fb1", O_RDWR);
     if (fd_fb < 0)
     {
         printf("Could not open /dev/fb0");
