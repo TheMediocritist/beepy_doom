@@ -29,7 +29,7 @@
 int key_right = 'd';
 int key_left = 'a';
 int key_up = 'w';
-int key_down = 'd'; 
+int key_down = 's'; 
 int key_strafeleft = 'q';
 int key_straferight = 'e';
 int key_fire = 'j';
@@ -166,7 +166,7 @@ int key_menu_qsave     = KEY_F6;
 int key_menu_endgame   = KEY_F7;
 int key_menu_messages  = KEY_F8;
 int key_menu_qload     = KEY_F9;
-int key_menu_quit      = 'q';
+int key_menu_quit      = 'x';
 int key_menu_gamma     = 'g';
 
 int key_menu_incscreen = KEY_EQUALS;
