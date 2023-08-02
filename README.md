@@ -1,10 +1,5 @@
 
 
-To install on Beepy:
-```
-curl -s https://raw.githubusercontent.com/TheMediocritist/beepy_gnuboy/master/beepy_setup.sh | bash
-```
-
 ================
 = fbDOOM =
 ================
