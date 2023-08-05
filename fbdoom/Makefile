@@ -26,7 +26,7 @@ CFLAGS+=-ggdb3 -Wall -DNORMALUNIX -DLINUX -DSNDSERV # -DUSEASM
 LIBS+=-lm -lc
 
 ifneq ($(NOSDL),1)
-	LIBS+= -lSDL
+	#LIBS+= -lSDL
 endif
 
 # subdirectory for objects
